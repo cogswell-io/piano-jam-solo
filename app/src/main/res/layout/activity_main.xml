@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="0dp"
+    tools:context="io.cogswell.pianojamsolo.MainActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:weightSum="12"
+        android:gravity="top|bottom">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="C"
+            android:id="@+id/cKeyButton"
+            android:layout_gravity="center_horizontal"
+            android:background="#FFF"
+            android:gravity="bottom|center"
+            android:paddingBottom="5pt" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/cSharpKeyLayout"
+            android:weightSum="10">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="C#"
+                android:id="@+id/cSharpKeyButton"
+                android:background="#000"
+                android:textColor="#FFF"
+                android:gravity="bottom|center"
+                android:paddingBottom="5pt" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:id="@+id/cSharpKeyPad"></LinearLayout>
+        </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="D"
+            android:id="@+id/dKeyButton"
+            android:layout_gravity="center_horizontal"
+            android:background="#FFF"
+            android:gravity="bottom|center"
+            android:paddingBottom="5pt" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:weightSum="10"
+            android:id="@+id/dSharpKeyLayout">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="D#"
+                android:id="@+id/dSharpKeyButton"
+                android:background="#000"
+                android:textColor="#FFF"
+                android:gravity="bottom|center"
+                android:paddingBottom="5pt" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:id="@+id/dSharpKeyPad"></LinearLayout>
+        </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="E"
+            android:id="@+id/eKeyButton"
+            android:layout_gravity="center_horizontal"
+            android:background="#FFF"
+            android:gravity="bottom|center"
+            android:paddingBottom="5pt" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="F"
+            android:id="@+id/fKeyButton"
+            android:layout_gravity="center_horizontal"
+            android:background="#FFF"
+            android:gravity="bottom|center"
+            android:paddingBottom="5pt"
+            android:shadowColor="#ccc" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/fSharpKeyLayout"
+            android:weightSum="10">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="F#"
+                android:id="@+id/fSharpKeyButton"
+                android:background="#000"
+                android:textColor="#FFF"
+                android:gravity="bottom|center"
+                android:paddingBottom="5pt" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/fSharpKeyPad"
+                android:layout_weight="7"></LinearLayout>
+        </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="G"
+            android:id="@+id/gKeyButton"
+            android:layout_gravity="center_horizontal"
+            android:background="#FFF"
+            android:gravity="bottom|center"
+            android:paddingBottom="5pt" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/gSharpKeyLayout"
+            android:weightSum="10">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="G#"
+                android:id="@+id/gSharpKeyButton"
+                android:background="#000"
+                android:textColor="#FFF"
+                android:gravity="bottom|center"
+                android:paddingBottom="5pt" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:id="@+id/gSharpKeyPad"></LinearLayout>
+        </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="A"
+            android:id="@+id/aKeyButton"
+            android:layout_gravity="center_horizontal"
+            android:background="#FFF"
+            android:gravity="bottom|center"
+            android:paddingBottom="5pt" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/aSharpKeyLayout">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="A#"
+                android:id="@+id/aSharpKeyButton"
+                android:background="#000"
+                android:textColor="#FFF"
+                android:gravity="bottom|center"
+                android:paddingBottom="5pt" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:id="@+id/aSharpKeyPad"></LinearLayout>
+        </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="B"
+            android:id="@+id/bKeyButton"
+            android:background="#FFF"
+            android:gravity="bottom|center"
+            android:paddingBottom="5pt" />
+    </LinearLayout>
+</RelativeLayout>
