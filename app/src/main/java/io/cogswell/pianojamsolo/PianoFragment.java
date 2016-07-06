@@ -84,7 +84,7 @@ public class PianoFragment extends Fragment {
             this.activeColor = activeColor;
             this.buttonId = buttonId;
             this.button = (Button) rootView.findViewById(buttonId);
-            if (soundPool!=null) {
+            if (soundPool != null) {
                 soundPoolId = soundPool.load(PianoFragment.this.getContext(), soundId, 1);
             }
         }
@@ -111,7 +111,7 @@ public class PianoFragment extends Fragment {
                              Bundle savedInstanceState) {
         try {
             soundPool = new SoundPool.Builder().setMaxStreams(15).setAudioAttributes(new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .build()).build();
         } catch (Throwable t) {
@@ -216,19 +216,11 @@ public class PianoFragment extends Fragment {
         return new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Button keyButton = (Button) v;
                 int action = event.getAction();
 
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                            Logging.info("Sending Key Event: " + key.getKeyName());
-                            playColor(key.getKeyName());
-                            sendKeyEvent(key);
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                            keyButton.setBackgroundColor(key.getKeyColor());
-                        break;
+                if(action == MotionEvent.ACTION_DOWN){
+                    Logging.info("Sending Key Event: " + key.getKeyName());
+                    sendKeyEvent(key);
                 }
 
                 return false;
@@ -251,7 +243,7 @@ public class PianoFragment extends Fragment {
 
     private void playColor(String nodeName) {
         KeyProfile key = nameToKey.get(nodeName);
-        if (key.getButton()!=null) {
+        if (key.getButton() != null) {
             key.getButton().setBackgroundColor(key.getActiveColor());
             final Handler handler = new Handler();
             final KeyProfile keyFinal = key;
@@ -272,7 +264,7 @@ public class PianoFragment extends Fragment {
                     public void call(final String key) {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
-                                Logging.info("Received Key Message: ' Message: '" + key + "'");
+                                Logging.info("Received Key Message: '" + key + "'");
 
                                 playSound(key);
                                 playColor(key);

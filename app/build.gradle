@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "io.cogswell.democlient"
+        applicationId "io.cogswell.pianojamsolo"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 11
@@ -31,5 +31,4 @@ dependencies {
     compile 'com.android.support:support-v13:23.+'
     compile 'com.android.support:support-v4:23.+'
     compile 'com.android.support:design:23.3.0'
-    compile 'io.cogswell:cogs-android-client-sdk:1.0.29'
 }

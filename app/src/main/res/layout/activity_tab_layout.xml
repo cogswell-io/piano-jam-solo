@@ -110,7 +110,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/userSelectedRoomName"
                 android:layout_weight="0.20"
-                android:text="default channel"
+                android:text="default room"
                 android:layout_gravity="center"
                 android:width="100dp"
                 android:nextFocusUp="@id/userSelectedRoomName"

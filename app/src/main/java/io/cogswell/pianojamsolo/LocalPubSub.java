@@ -12,7 +12,7 @@ public class LocalPubSub implements PublishInterface, SubscribeInterface {
     private static String currentRoom = null;
 
     @Override
-    public void publish(String room, String key, Callback<String> bookkeepingCallback){
+    public void publish(String room, final String key, Callback<String> bookkeepingCallback){
         LocalPubSub.callback.call(key);
         bookkeepingCallback.call(room);
     }
