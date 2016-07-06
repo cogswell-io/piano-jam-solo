@@ -310,6 +310,67 @@ does it in a circuitous manner. Because you need a `CogsSubscription` object and
 extra code but no real extra work. A callback is invoked after subscription to log
 information about leaving the room.
 
+#### PublishInterface
+The `PublishInterface` requires that one method be implemented, but you will also
+create a helper method. Copy this into the `Cogs` class body:
+```
+public static Future<GambitResponse> sendEvent(
+  String namespace, JSONObject attributes, String eventName) {
+    GambitRequestEvent.Builder builder = new GambitRequestEvent.Builder(
+      accessKey, clientSalt, clientSecret);
+
+    builder.setNamespace(namespace);
+    builder.setAttributes(attributes);
+    builder.setEventName(eventName);
+    builder.setCampaignId(-1);
+    builder.setTimestamp(TimeFormatter.isoNow());
+
+    try {
+      return cogsService.sendGambitEvent(builder);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+}
+```
+This method is the helper method uses the `GambitSDKService` to send an event to
+Cogs. Because `sendGambitEvent` returns a Future, this will be implemented as a helper method.
+Now copy this into the `Cogs` class body:
+```
+@Override
+public void publish(final String room, String key, final Callback<String> bookkeepingCallback){
+  final JSONObject attributes = new JSONObject();
+
+  try {
+    attributes.put("room", room);
+    attributes.put("key", key);
+  } catch (JSONException e) {
+    throw new RuntimeException(e);
+  }
+
+  cogsService.execute(new Runnable() {
+    @Override
+    public void run() {
+      try {
+        GambitResponse response = Cogs.sendEvent(namespace, attributes, eventName).get();
+        int statusCode = response.getRawCode();
+
+        if(response.isSuccess() && statusCode == 200) {
+          bookkeepingCallback.call(room);
+        } else {
+          bookkeepingCallback.call(null);
+        }
+      } catch (Exception e){
+        bookkeepingCallback.call(null);
+      };
+    }
+  });
+}
+```
+This method implements the `publish` method from the `PublishInterface`. First it
+creates an `attributes` JSON object, then it calls the helper method you just created
+on a new thread passing in the namespace, attributes, and event name; and waits for the
+response from the Future.
+
 ## Program PianoFragment
 The final modifications you will make are to the `PianoFragment` class.
 
