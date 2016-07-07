@@ -406,7 +406,7 @@ You will need to add the following code to the `PianoFragment` class body:
 ```
 private boolean isInPublishMode = false;
 ```
-and the folowwing into the `onCreateView` method:
+and the following into the `onCreateView` method:
 ```
 final Switch pubSubSwitch = (Switch) getActivity().findViewById(R.id.pubSubSwitch);
 
