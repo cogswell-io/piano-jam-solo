@@ -21,36 +21,35 @@ on the left to navigate to the pages needed.
 ### API Keys
 Click on the "API Keys" link under the "Setup" menu, or if you are using the QuickStart guide
 you will start at the "API Keys" tab. The API keys are how an application authenticates
-that it has permission to use your account on Cogswell.io. You should only use these
-keys in your own applications as you could run out of free access or be charged if the
-account is used by others. Simply choose a name for your key pair and click the
-"Create Keys" button. The keys will be available from the "My Key Pairs" section of the
-"API Keys" page. Just click on the entry and a pop-up will display them.
+that it has permission to use your account on Cogswell.io. Do not publicly expose your keys; 
+they should be kept secret. Simply choose a name for your key pair and click the "Create Keys" 
+button. The keys will be available from the "My Key Pairs" section of the "API Keys" page. 
+Just click on the entry and a pop-up will display them.
 
 ### Namespace
 Click on the "Namespaces" link or tab to create a namespace for the application. In the
-tutorial this will be named "pianojam", but you can name it anything. Enter the name
-in the "Namespace Name" field and click next. Next you will create two namespace attributes.
-Events that are sent to Cogs for your account will be evaluated based on the values
-that they have for these attributes. Create an attribute with name "room" and
-select the data type "text" from the drop down. Click the "Add Attribute" button to
-see the new attribute listed. Click the "Make part of primary key?" check box so
-that it is checked. Create another attribute with the name "key" and the data type "text".
+tutorial this will be named "pianojam". Enter the name in the "Namespace Name" field and 
+click next. Next you will create two namespace attributes. Events that are sent to Cogs 
+for your account will be evaluated based on the values that they have for these attributes. 
+Create an attribute with name "room" and select the data type "text" from the drop down. 
+Click the "Add Attribute" button to see the new attribute listed. Click the "Make part of primary key?" 
+check box so that it is checked. Create another attribute with the name "key" and the data type "text".
 Make sure to click the "Add Attribute" button. Do not make this attribute part of the
 primary key.
 
 ### Campaign
-Click on the "New Campaign" link on the left. You will now create the campaign that will
-send messages to the Piano Jam application in response to incoming events. Choose a
-campaign name and enter it in the "Campaign Name" field. In the tutorial, "Piano Jam"
-will be the name of the campaign, but it can be named anything you like. Now click next
-and go to the "Content" tab. You will need to check "No URL" and enter "Key Pressed" in
-the "Notification Message" field. Also click the "Send Triggering Event" slider so that
+In the control panel to the left choose "pianojam" from the top dropdown underneath
+the "Select Namespace" text. Click on the "New Campaign" link on the left. You will now 
+create the campaign that will send messages to the Piano Jam application in response to 
+incoming events. Choose a campaign name and enter it in the "Campaign Name" field. In the 
+tutorial, "Piano Jam" will be the name of the campaign, but it can be named anything you like. 
+Now click next and go to the "Content" tab. You will need to check "No URL" and enter "Key Pressed" 
+in the "Notification Message" field. Also click the "Send Triggering Event" slider so that
 it turns green. Sending the triggering event will allow the value of the key pressed to
 be extracted from the message. Go to the "Audience" tab and select "Show anytime a
 qualifying trigger is detected" for the message frequency. Then select one minute for
-the message expiration value. Now check the "Show to" box for "Whomever triggers this
-campaign" so that any device subscribing to the same topic as the triggering client
+the message expiration value. Verify that the "Show to" box for "Whomever triggers this
+campaign" is checked so that any device subscribing to the same topic as the triggering client
 will be sent a message. The topic is defined by the primary key namespace attributes
 chosen earlier. In this case the "room" attribute.
 
@@ -59,26 +58,30 @@ by triggering the campaign. Enter a description in the "Rule Description" field.
 can be anything you like. In the filters section choose "Newest/Last" for the "Reduction"
 value for an event filter, and 1 for the value. Choose "Events" as the unit, and click
 "Add Event Filter" to save the filter. In the conditions section choose attribute "key",
-reduction "Newest", and operator "value_present", and click the "Add Condition" button.
-Finally, click the "Add Rule" button.
+reduction "Newest", and operator "has any value", and click the "Add Condition" button.
+Click the "Add Rule" button, and then finally click the "Finish" button to create the 
+campaign.
 
 ### Client Keys
 The final setup step is to generate client keys. In an app that is distributed to
 customers the developers API keys should not be exposed. Therefore Cogs can create derived
 keys for distribution to clients. Click on the "Client Keys" link under the setup menu,
 and select the API key pair you created earlier from the "Create Client Keys from" selector.
-Then click "Create Keys" to create a new client key pair.
+Then click "Create Keys" to create a new client key pair. These are not saved, so make sure to
+copy and paste them somewhere for the time being or keep this page open. You will need the client
+secret and salt pair for later in the tutorial.
 
 ## Include Cogs Android Client SDK
 In order to access the Cogswell.io service, you will need to include the Cogs Android
-Client SDK in the app. In the "build.gradle" file under the "app/src" directory place the line:
+Client SDK in the app. In the "build.gradle" file under the "app/" directory place the line:
 ```
 compile 'io.cogswell:cogs-android-client-sdk:1.0.29'
 ```
 into the `dependencies` section.
 This will cause Gradle to download the Cogs Android Client SDK and include it in
 the app. There is another "build.gradle" file under the "gradle" directory, but it
-helpfully advises against placing dependencies in it.
+helpfully advises against placing dependencies in it. After you have modified your build.gradle
+file be sure to build the project to have access to the SDK's classes.
 
 ## Create Classes
 Now you begin altering the code of the Piano Jam Solo app. First you will add two new
@@ -374,6 +377,17 @@ response from the Future.
 ## Program PianoFragment
 The final modifications you will make are to the `PianoFragment` class.
 
+### Add necessary imports
+```
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+```
+
 ### Change publisher and subscriber to use Cogs
 First, add the following code to the body of the `PianoFragment` class:
 ```
@@ -392,15 +406,15 @@ Now the app will use Cogs instead of a local pub-sub component.
 ### Add controls
 In order to allow the app to be more useful as a distributed application, you will
 need to add in a couple of controls and their backing logic. The first thing to do
-is to delete a few lines fron the "activity_tab_layout.xml" file. Several components contain
-the following code:
+is to delete a few lines fron the "app/src/main/res/layout/activity_tab_layout.xml" 
+file. Several components contain the following code:
 ```
 android:visibility="gone"
 ```
 Remove this line wherever it appears in the file. This will change several UI components
 from invisible to visible.
 
-#### publish mode
+#### Publish mode
 You will need to add the following code to the `PianoFragment` class body:
 
 ```
@@ -416,7 +430,7 @@ pubSubSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListen
   }
 });
 ```
-Next you will need to change the following code inside the `TouchListener`:
+Next you will need to change the following code inside the View's `TouchListener`:
 ```
 if(action == MotionEvent.ACTION_DOWN){
   Logging.info("Sending Key Event: " + key.getKeyName());
@@ -438,8 +452,9 @@ if(action == MotionEvent.ACTION_DOWN){
 This makes the key presses publish to Cogs when in publish mode, but just directly
 call the play methods when not in publish mode.
 
-#### subscriptions
-To allow subscriptions to rooms that are not the default add the following:
+#### Subscriptions
+To allow subscriptions to rooms that are not the default add the following to the PianoFragment class inside
+of the onCreateView method:
 ```
 final Button roomSubscribeButton = (Button) getActivity().findViewById(R.id.subscribeButton);
 final EditText userSelectedRoomName = (EditText) getActivity().findViewById(R.id.userSelectedRoomName);
@@ -451,7 +466,7 @@ roomSubscribeButton.setOnClickListener(new View.OnClickListener() {
     final String newRoomName = userSelectedRoomName.getText().toString();
     Log.d("PianoFragment", "Subscribing to " + newRoomName);
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    sharedPreferences.edit().putString("room", newRoomlName).apply();
+    sharedPreferences.edit().putString("room", newRoomName).apply();
     roomSubscribeButton.setText(roomButtonTextDisplay);
     sub(newRoomName);
   }
