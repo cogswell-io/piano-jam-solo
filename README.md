@@ -48,7 +48,7 @@ in the "Notification Message" field. Also click the "Send Triggering Event" slid
 it turns green. Sending the triggering event will allow the value of the key pressed to
 be extracted from the message. Go to the "Audience" tab and select "Show anytime a
 qualifying trigger is detected" for the message frequency. Then select one minute for
-the message expiration value. Verify the "Show to" box for "Whomever triggers this
+the message expiration value. Verify that the "Show to" box for "Whomever triggers this
 campaign" is checked so that any device subscribing to the same topic as the triggering client
 will be sent a message. The topic is defined by the primary key namespace attributes
 chosen earlier. In this case the "room" attribute.
