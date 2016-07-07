@@ -128,12 +128,11 @@ public class PianoFragment extends Fragment {
 
         ImageView cogswellIcon = (ImageView) getActivity().findViewById(R.id.cogswellIcon);
 
-        cogswellIcon.setOnTouchListener(new View.OnTouchListener() {
+        cogswellIcon.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://cogswell.io"));
                 startActivity(browserIntent);
-                return true;
             }
         });
 
@@ -227,6 +226,7 @@ public class PianoFragment extends Fragment {
             }
         };
     }
+
 
     private void eventOnKeyPress(int id, KeyProfile key) {
         Button button = (Button) rootView.findViewById(id);

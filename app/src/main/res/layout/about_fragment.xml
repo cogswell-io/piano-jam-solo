@@ -16,6 +16,7 @@
         android:text="Brought to you by Cogswell.io"
         android:id="@+id/aboutTextView"
         android:layout_gravity="center"
+        android:padding="10dp"
         />
 
 </FrameLayout>
