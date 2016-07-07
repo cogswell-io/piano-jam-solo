@@ -448,7 +448,7 @@ roomSubscribeButton.setOnClickListener(new View.OnClickListener() {
     final String newRoomName = userSelectedRoomName.getText().toString();
     Log.d("PianoFragment", "Subscribing to " + newRoomName);
     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-    sharedPreferences.edit().putString("room", newRoomlName);
+    sharedPreferences.edit().putString("room", newRoomlName).apply();
     roomSubscribeButton.setText(roomButtonTextDisplay);
     sub(newRoomName);
   }
