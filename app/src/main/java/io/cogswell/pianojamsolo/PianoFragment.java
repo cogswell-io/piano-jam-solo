@@ -257,6 +257,15 @@ public class PianoFragment extends Fragment {
     }
 
     private void sub(final String newRoomName){
+        subscriber.unsubscribe(
+                new Callback<String>() {
+                    @Override
+                    public void call(String room) {
+                        Logging.info("Left room " + room);
+                    }
+                }
+        );
+
         subscriber.subscribe(
                 newRoomName,
                 new Callback<String>() {
