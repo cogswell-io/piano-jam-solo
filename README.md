@@ -405,6 +405,9 @@ You will need to add the following code to the `PianoFragment` class body:
 
 ```
 private boolean isInPublishMode = false;
+```
+and the folowwing into the `onCreateView` method:
+```
 final Switch pubSubSwitch = (Switch) getActivity().findViewById(R.id.pubSubSwitch);
 
 pubSubSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -453,6 +456,40 @@ roomSubscribeButton.setOnClickListener(new View.OnClickListener() {
     sub(newRoomName);
   }
 });
+
+SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+String oldRoomName = sharedPreferences.getString("room", null);
+
+if (oldRoomName==null) {
+  oldRoomName = defaultRoomName;
+  sharedPreferences.edit().putString("room", defaultRoomName).apply();
+}
+
+sub(oldRoomName);
+
+userSelectedRoomName.setText(oldRoomName);
+userSelectedRoomName.addTextChangedListener(new TextWatcher() {
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+  @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    String oldRoomName = sharedPreferences.getString("room", null);
+    String newRoomName = s.toString();
+    if (!newRoomName.equals(oldRoomName)) {
+      roomSubscribeButton.setText(roomButtonTextSubscribe);
+      sharedPreferences.edit().putString("room", newRoomName).apply();
+    }
+  }
+
+  @Override
+  public void afterTextChanged(Editable s) {}
+});
+```
+while deleting:
+```
+sub(defaultRoomName);
 ```
 Most of this code deals with Android UI components. The only thing to note is that
 the `sub` method gets called in the `roomSubscribeButton` click listener.
