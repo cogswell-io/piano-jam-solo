@@ -41,25 +41,32 @@ primary key.
 In the control panel to the left choose "pianojam" from the top dropdown underneath
 the "Select Namespace" text. Click on the "New Campaign" link on the left. You will now 
 create the campaign that will send messages to the Piano Jam application in response to 
-incoming events. Choose a campaign name and enter it in the "Campaign Name" field. In the 
+incoming events. 
++ Choose a campaign name and enter it in the "Campaign Name" field. In the 
 tutorial, "Piano Jam" will be the name of the campaign, but it can be named anything you like. 
-Now click next and go to the "Content" tab. You will need to check "No URL" and enter "Key Pressed" 
-in the "Notification Message" field. Also click the "Send Triggering Event" slider so that
++ Click next and go to the "Content" tab. You will need to check "No URL" and enter "Key Pressed" 
+in the "Notification Message" field. 
++ Click the "Send Triggering Event" slider so that
 it turns green. Sending the triggering event will allow the value of the key pressed to
-be extracted from the message. Go to the "Audience" tab and select "Show anytime a
+be extracted from the message. 
++ Go to the "Audience" tab and select "Show anytime a
 qualifying trigger is detected" for the message frequency. Then select one minute for
-the message expiration value. Verify that the "Show to" box for "Whomever triggers this
+the message expiration value. 
++ Verify that the "Show to" box for "Whomever triggers this
 campaign" is checked so that any device subscribing to the same topic as the triggering client
 will be sent a message. The topic is defined by the primary key namespace attributes
 chosen earlier. In this case the "room" attribute.
 
 Continue on to the "Rules" page. This is where you will specify when to send messages
-by triggering the campaign. Enter a description in the "Rule Description" field. This
-can be anything you like. In the filters section choose "Newest/Last" for the "Reduction"
+by triggering the campaign. 
++ Enter a description in the "Rule Description" field. This
+can be anything you like. 
++ In the filters section choose "Newest/Last" for the "Reduction"
 value for an event filter, and 1 for the value. Choose "Events" as the unit, and click
-"Add Event Filter" to save the filter. In the conditions section choose attribute "key",
+"Add Event Filter" to save the filter. 
++ In the conditions section choose attribute "key",
 reduction "Newest", and operator "has any value", and click the "Add Condition" button.
-Click the "Add Rule" button, and then finally click the "Finish" button to create the 
++ Click the "Add Rule" button, and then finally click the "Finish" button to create the 
 campaign.
 
 ### Client Keys
