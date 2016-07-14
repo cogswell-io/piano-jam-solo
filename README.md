@@ -12,10 +12,10 @@ Before editing the Piano Jam Solo app to produce a Cogs enabled app, you will ne
 go to https://cogswell.io to set up an account and create a campaign.
 
 ### Account
++ If you already have an account you can skip these steps and simply log in. 
 + Click on the "Sign Up" button on the header of the page to navigate to the sign up page.
 + Sign up and verify your e-mail address. 
-+ Click on the login link to log into your account. If you already have an account you can skip
-the previous steps and simply log in. 
++ Click on the login link to log into your account. 
 
 Once logged in you can go through the QuickStart guide or use the Setup link
 on the left to navigate to the pages needed.
@@ -23,10 +23,8 @@ on the left to navigate to the pages needed.
 ### API Keys
 + Click on the "API Keys" link under the "Setup" menu, or if you are using the QuickStart guide
 you will start at the "API Keys" tab. 
-
-The API keys are how an application authenticates
-that it has permission to use your account on Cogswell.io. Do not publicly expose your keys; 
-they should be kept secret. 
+++ The API keys are how an application authenticates that it has permission to use your account 
+on Cogswell.io. Do not publicly expose your keys; they should be kept secret. 
 + Choose a name for your key pair and click the "Create Keys" button. 
 
 The keys will be available from the "My Key Pairs" section of the "API Keys" page. 
@@ -190,11 +188,10 @@ in the body of the `unsubscribe` method of the `Cogs` class:
 
       callback.call(room);
 ```
-The `unsubscribe` method calls the `unsubscribe` method of the `GambitSDKService`, but it
-does it in a circuitous manner. Because you need a `CogsSubscription` object and the
-`GambitSDKService` returns a set of them, it is necessary to loop through them and call
-`unsubscribe`. Because the app only has one subscription at a time this is a bit of
-extra code but no real extra work. A callback is invoked after subscription to log
+`unsubscribe` uses a `CogsSubscription` object to perform the unsubscription and the
+`GambitSDKService` returns a set of them, so it is necessary to loop through them and call
+`unsubscribe`. The app will only ever have one subscription at a time, so only one iteration
+through the loop will ever occur. A callback is invoked after subscription to log
 information about leaving the room.
 
 #### PublishInterface
@@ -259,19 +256,8 @@ private SubscribeInterface subscriber = pubsub;
 ```
 Now the app will use Cogs instead of a local pub-sub component.
 
-### Add controls
-In order to allow the app to be more useful as a distributed application, you will
-need to add in a couple of controls. You will need to delete several lines from the
-"app/src/main/res/layout/activity_tab_layout.xml" file. Four components contain the
-following code:
-```
-android:visibility="gone"
-```
-Remove this line where it appears in the file. This will change several UI components
-from invisible to visible.
-
 ### Publish mode
-You will need to change the following code inside the View's `TouchListener`:
+You will need to change the following code inside the View's `TouchListener` inside the `PianoFragment` class:
 ```
 if(action == MotionEvent.ACTION_DOWN){
   Logging.info("Sending Key Event: " + key.getKeyName());
@@ -292,6 +278,17 @@ if(action == MotionEvent.ACTION_DOWN){
 ```
 This makes the key presses publish to Cogs when in publish mode, but just directly
 call the play methods when not in publish mode.
+
+### Add controls
+In order to allow the app to be more useful as a distributed application, you will
+need to add in a couple of controls. You will need to delete several lines from the
+"app/src/main/res/layout/activity_tab_layout.xml" file. Four components contain the
+following code:
+```
+android:visibility="gone"
+```
+Remove this line where it appears in the file. This will change several UI components
+from invisible to visible.
 
 ## Remove LocalPubSub
 Now it is possible to remove the 'LocalPubSub' class, and the app should work fully
