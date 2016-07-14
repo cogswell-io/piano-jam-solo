@@ -136,19 +136,9 @@ Now you will implement the required methods from `SubscribeInterface` and `Publi
 
 #### SubscribeInterface
 The `SubscribeInterface` interface has two methods that must be implemented: `subscribe`
-and `unsubscribe`. Copy the following into the body of the `subsrcibe` method of the `Cogs`
-class:
+and `unsubscribe`. Copy the following to the end of the `run` method of the anonymous Runnable class
+in the body of the `subscribe` method of the `Cogs` class:
 ```
-  cogsService.execute(new Runnable() {
-    @Override public void run() {
-      JSONObject attributes = new JSONObject();
-      try {
-        attributes.put("room", room);
-      } catch (JSONException e) {
-        Logging.error("Error assembling topic attributes.", e);
-        throw new RuntimeException("Error assembling topic attributes.", e);
-      }
-
       CogsSubscriptionRequest request;
       try {
         request = CogsSubscriptionRequest.builder()
@@ -170,8 +160,6 @@ class:
       } finally {
         bookkeepingCallback.call(room);
       }
-    }
-  });
 ```
 The `subscribe` method creates an `attributes` JSON object that specifies the topic
 that will be subscribed to. This lets a single namespace route messages for multiple
@@ -182,11 +170,9 @@ from the `GambitSDKService` is called taking the request you just built and the
 `Subscriptions` object that you previously implemented. Finally the `bookkeepingCallback`
 is called with the room subscribed to.
 
-Next you will copy this code to the `unsubscribe` method of the `Cogs` class:
+Next you will copy the following to the end of the `run` method of the anonymous Runnable class
+in the body of the `unsubscribe` method of the `Cogs` class:
 ```
-  cogsService.execute(new Runnable() {
-    @Override public void run() {
-      String room = null;
       Set<CogsSubscription> subscriptions = cogsService.getSubscriptions();
 
       for (final CogsSubscription subscription : subscriptions) {
@@ -203,8 +189,6 @@ Next you will copy this code to the `unsubscribe` method of the `Cogs` class:
       }
 
       callback.call(room);
-    }
-  });
 ```
 The `unsubscribe` method calls the `unsubscribe` method of the `GambitSDKService`, but it
 does it in a circuitous manner. Because you need a `CogsSubscription` object and the
@@ -237,12 +221,9 @@ public static Future<GambitResponse> sendEvent(
 ```
 This method is the helper method uses the `GambitSDKService` to send an event to
 Cogs. Because `sendGambitEvent` returns a Future, this will be implemented as a helper method.
-Now copy this into the `publish` method of the `Cogs` class body:
+Copy the following to the end of the `run` method of the anonymous Runnable class
+in the body of the `publish` method of the `Cogs` class body:
 ```
-@Override
-  cogsService.execute(new Runnable() {
-    @Override
-    public void run() {
       try {
         GambitResponse response = Cogs.sendEvent(namespace, attributes, eventName).get();
         int statusCode = response.getRawCode();
@@ -255,8 +236,6 @@ Now copy this into the `publish` method of the `Cogs` class body:
       } catch (Exception e){
         bookkeepingCallback.call(null);
       };
-    }
-  });
 ```
 This method implements the `publish` method from the `PublishInterface`. It calls the helper method
 you just created on a new thread passing in the namespace, attributes, and event name; and waits for the
