@@ -3,6 +3,7 @@ package io.cogswell.pianojamsolo;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -10,16 +11,22 @@ import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -33,8 +40,6 @@ import java.util.LinkedHashMap;
  * controlled here as well. It also provides listeners for controls.
  */
 public class PianoFragment extends Fragment {
-
-    String defaultRoomName = "notes";
 
     private static final int COLOR_WHITE = Color.parseColor("#ffffff");
     private static final int COLOR_BLACK = Color.parseColor("#000000");
@@ -52,6 +57,9 @@ public class PianoFragment extends Fragment {
     private static final int COLOR_10 = Color.parseColor("#117899");
     private static final int COLOR_11 = Color.parseColor("#0f5b78");
     private static final int COLOR_12 = Color.parseColor("#0d3c55");
+
+    private String defaultRoomName = "notes";
+    private boolean isInPublishMode = false;
 
     private LocalPubSub pubsub = new LocalPubSub();
     private PublishInterface publisher = pubsub;
@@ -161,6 +169,115 @@ public class PianoFragment extends Fragment {
         } catch (Exception e) {
             Logging.error("Unable to initialize media", e);
         }
+        final Button roomSubscribeButton = (Button) getActivity().findViewById(R.id.subscribeButton);
+        final EditText userSelectedRoomName = (EditText) getActivity().findViewById(R.id.userSelectedRoomName);
+        final String roomButtonTextSubscribe = "Subscribe";
+        final String roomButtonTextDisplay = "Room";
+
+        final Switch pubSubSwitch = (Switch) getActivity().findViewById(R.id.pubSubSwitch);
+        pubSubSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isInPublishMode = isChecked;
+
+                if(isChecked){
+                    subscriber.unsubscribe(
+                            new Callback<String>() {
+                                @Override
+                                public void call(String room) {
+                                    Logging.info("Left room " + room);
+                                }
+                            }
+                    );
+                } else {
+                    subscriber.subscribe(
+                            ((EditText) getActivity().findViewById(R.id.userSelectedRoomName)).getText().toString(),
+                            new Callback<String>() {
+                                @Override
+                                public void call(final String key) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Logging.info("Received Key Message: '" + key + "'");
+
+                                            playSound(key);
+                                            playColor(key);
+                                        }
+                                    });
+                                }
+                            },
+                            new Callback<String>() {
+                                @Override
+                                public void call(String room) {
+                                    Logging.info("Joined room " + room);
+                                }
+                            }
+                    );
+                }
+            }
+        });
+
+        // When you click the button, unsubscribe from the old, subscribe to the new, and save the new channel name.
+        roomSubscribeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final String newRoomName = ((EditText) getActivity().findViewById(R.id.userSelectedRoomName)).getText().toString();
+                Log.d("PianoFragment", "Subscribing to " + newRoomName);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPreferences.edit().putString("channel", newRoomName).apply();
+                roomSubscribeButton.setText(roomButtonTextDisplay);
+                sub(newRoomName);
+            }
+        });
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String oldRoomName = sharedPreferences.getString("room", null);
+
+        if (oldRoomName==null) {
+            oldRoomName = defaultRoomName;
+            sharedPreferences.edit().putString("room", defaultRoomName).apply();
+        }
+
+        subscriber.subscribe(
+                oldRoomName,
+                new Callback<String>() {
+                    @Override
+                    public void call(final String key) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                Logging.info("Received Key Message: '" + key + "'");
+
+                                playSound(key);
+                                playColor(key);
+                            }
+                        });
+                    }
+                },
+                new Callback<String>() {
+                    @Override
+                    public void call(String room) {
+                        Logging.info("Joined room " + room);
+                    }
+                }
+        );
+
+        userSelectedRoomName.setText(oldRoomName);
+        userSelectedRoomName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String oldRoomName = sharedPreferences.getString("room", null);
+                String newRoomName = s.toString();
+                if (!newRoomName.equals(oldRoomName)) {
+                    roomSubscribeButton.setText(roomButtonTextSubscribe);
+                    sharedPreferences.edit().putString("room", newRoomName).apply();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         final Button aboutButton = (Button) getActivity().findViewById(R.id.aboutButton);
 
@@ -189,8 +306,6 @@ public class PianoFragment extends Fragment {
                 }
             }
         });
-
-        sub(defaultRoomName);
 
         return rootView;
     }

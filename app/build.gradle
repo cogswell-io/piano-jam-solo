@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:support-v13:23.+'
     compile 'com.android.support:support-v4:23.+'
     compile 'com.android.support:design:23.3.0'
+    compile 'io.cogswell:cogs-android-client-sdk:1.0.29'
 }
