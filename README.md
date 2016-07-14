@@ -110,6 +110,7 @@ public void message(CogsMessage message) {
     Logging.warn("No key associated with message: " + message.getMessageId());
   }
 }
+```
 
 The `message` method is called when a message arrives over the WebSocket. It
 attempts to extract the key from the message, and if successful call the `call`

@@ -29,10 +29,31 @@ public class Cogs implements PublishInterface, SubscribeInterface {
                           final Callback<String> actionCallback,
                           final Callback<String> bookkeepingCallback) {
         callback = actionCallback;
+
+        cogsService.execute(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject attributes = new JSONObject();
+
+                try {
+                    attributes.put("room", room);
+                } catch (JSONException e) {
+                    Logging.error("Error assembling topic attributes.", e);
+                    throw new RuntimeException("Error assembling topic attributes.", e);
+                }
+            }
+        });
     }
 
     @Override
-    public void unsubscribe(final Callback<String> callback) {}
+    public void unsubscribe(final Callback<String> callback) {
+        cogsService.execute(new Runnable() {
+            @Override
+            public void run() {
+                String room = null;
+            }
+        });
+    }
 
     @Override
     public void publish(final String room, String key, final Callback<String> bookkeepingCallback) {
@@ -44,5 +65,12 @@ public class Cogs implements PublishInterface, SubscribeInterface {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+        cogsService.execute(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 }
