@@ -23,7 +23,7 @@ on the left to navigate to the pages needed.
 ### API Keys
 + Click on the "API Keys" link under the "Setup" menu, or if you are using the QuickStart guide
 you will start at the "API Keys" tab. 
-++ The API keys are how an application authenticates that it has permission to use your account 
+  + The API keys are how an application authenticates that it has permission to use your account 
 on Cogswell.io. Do not publicly expose your keys; they should be kept secret. 
 + Choose a name for your key pair and click the "Create Keys" button. 
 
