@@ -105,7 +105,7 @@ public void message(CogsMessage message) {
   if (key != null){
     Cogs.callback.call(key);
   } else {
-    Logging.warn("No key associated with message: " + message.getMessageId());
+    Logging.error("No key associated with message: " + message.getMessageId());
   }
 }
 ```
