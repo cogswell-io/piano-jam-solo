@@ -303,7 +303,6 @@ Remove this line where it appears in the file. This will change several UI compo
 from invisible to visible.
 
 ### Publish mode
-```
 You will need to change the following code inside the View's `TouchListener`:
 ```
 if(action == MotionEvent.ACTION_DOWN){
