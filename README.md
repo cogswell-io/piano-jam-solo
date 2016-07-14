@@ -244,17 +244,6 @@ response from the Future.
 ## Program PianoFragment
 The final modifications you will make are to the `PianoFragment` class.
 
-### Add necessary imports
-```
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-```
-
 ### Change publisher and subscriber to use Cogs
 First, add the following code to the body of the `PianoFragment` class:
 ```
