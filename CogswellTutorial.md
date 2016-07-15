@@ -1,4 +1,3 @@
-## Create Campaign
 Before editing the Piano Jam Solo app to produce a Cogs enabled app, you will need to
 go to https://cogswell.io to set up an account and create a campaign.
 
