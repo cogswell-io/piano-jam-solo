@@ -26,9 +26,12 @@ public class Subscriptions implements CogsSubscriptionHandler {
         Logging.info("WebSocket established.");
     }
 
+    /*
+     * The message method is called when the websocket receives a message.
+     */
     @Override
     public void message(CogsMessage message) {
-
+      //TODO 1: Insert Cogs tutorial code here
     }
 
     @Override

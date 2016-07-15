@@ -14,10 +14,7 @@ import io.cogswell.sdk.subscription.CogsSubscriptionHandler;
 import io.cogswell.sdk.subscription.CogsSubscriptionRequest;
 
 public class Cogs implements PublishInterface, SubscribeInterface {
-
-    private static String accessKey = "";
-    private static String clientSalt = "";
-    private static String clientSecret = "";
+    // TODO 2: Insert Cogs tutorial code here
     private static String namespace = "pianojam";
     private static String eventName = "Key Pressed";
     private static Subscriptions subscriptions = Subscriptions.getInstance();
@@ -33,27 +30,35 @@ public class Cogs implements PublishInterface, SubscribeInterface {
         cogsService.execute(new Runnable() {
             @Override
             public void run() {
+                // Create a JSON object to specify the topic.
                 JSONObject attributes = new JSONObject();
 
                 try {
+                    // Add the attributes that specify the topic.
                     attributes.put("room", room);
                 } catch (JSONException e) {
                     Logging.error("Error assembling topic attributes.", e);
                     throw new RuntimeException("Error assembling topic attributes.", e);
                 }
             }
+
+            // TODO 3: Insert Cogs tutorial code here
         });
     }
 
     @Override
-    public void unsubscribe(final Callback<String> callback) {
+    public void unsubscribe(final Callback<String> bookkeepingCallback) {
         cogsService.execute(new Runnable() {
             @Override
             public void run() {
                 String room = null;
+
+                // TODO 4: Insert Cogs tutorial code here
             }
         });
     }
+
+    // TODO 5: Insert Cogs tutorial code here
 
     @Override
     public void publish(final String room, String key, final Callback<String> bookkeepingCallback) {
@@ -69,7 +74,7 @@ public class Cogs implements PublishInterface, SubscribeInterface {
         cogsService.execute(new Runnable() {
             @Override
             public void run() {
-
+                // TODO 6: Insert Cogs tutorial code here
             }
         });
     }

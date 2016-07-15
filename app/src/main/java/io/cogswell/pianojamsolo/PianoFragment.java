@@ -61,6 +61,7 @@ public class PianoFragment extends Fragment {
     private String defaultRoomName = "notes";
     private boolean isInPublishMode = false;
 
+    // TODO 7: Insert Cogs tutorial code here, replacing the following three lines
     private LocalPubSub pubsub = new LocalPubSub();
     private PublishInterface publisher = pubsub;
     private SubscribeInterface subscriber = pubsub;
@@ -331,7 +332,7 @@ public class PianoFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
-
+                // TODO 8: Insert Cogs tutorial code here, replacing the following four lines
                 if(action == MotionEvent.ACTION_DOWN){
                     Logging.info("Sending Key Event: " + key.getKeyName());
                     sendKeyEvent(key);
