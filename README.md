@@ -5,20 +5,22 @@ through a local pub-sub system. This pub-sub system implements a Publish interfa
 and Subscribe interface, and is intended to be replaced with a networked pub-sub
 system that uses the Cogswell.io cloud messaging service.
 
+The following tutorial assumes you know how to edit, compile, and install Android
+programs. If not you can get information at the
+[Android developer portal](https://developer.android.com/training/index.html).
+
 # Piano Jam using Cogswell.io Tutorial
 Before updating the Piano Jam Solo program to use Cogs you will need to set up an account, keys,
 and campaign on the Cogswell.io website according to this [tutorial](CogswellTutorial.md).
 
-## Program Subscriptions
-First you will program the `Subscriptions` class.
+## Edit Subscriptions
+First you will edit the `Subscriptions` class.
 
 ### Make it implement methods from CogsSubscriptionHandler
 The `CogsSubscriptionHandler` interface defines the methods that need to be implemented
-in order to subscribe to a Cogs room over a WebSocket. Insert this code into the 'Subscriptions'
-class at TODO 1:
+in order to subscribe to a Cogs room over a WebSocket. Insert this code into the `message` method
+of the `Subscriptions` class at TODO 1:
 ```
-@Override
-public void message(CogsMessage message) {
   // Try to extract the key from the message.
   String key = message.getForwardedEvent().getAttributes().str("key");
 
@@ -28,11 +30,10 @@ public void message(CogsMessage message) {
   } else {
     Logging.error("No key associated with message: " + message.getMessageId());
   }
-}
 ```
 
-## Program Cogs
-Now you will implement the `Cogs` class.
+## Edit Cogs
+Now you will edit the `Cogs` class.
 
 ### Configuration fields
 Copy the following code to TODO 2 in the `Cogs` class:
@@ -50,7 +51,7 @@ Now you will implement the required methods from `SubscribeInterface` and `Publi
 
 #### SubscribeInterface
 The `SubscribeInterface` interface has two methods that must be implemented: `subscribe`
-and `unsubscribe`. Copy the following to TODO 3 in the `Cogs` class:
+and `unsubscribe`. Copy the following to TODO 3 in the `subscribe` method of the `Cogs` class:
 ```
       // Create a CogsSubscriptionRequest object containing the keys, namespace, and topic attributes.
       // These are necessary to route messages correctly at increasing levels of granularity.
@@ -79,7 +80,7 @@ and `unsubscribe`. Copy the following to TODO 3 in the `Cogs` class:
       }
 ```
 
-Next you will copy the following to TODO 4 in the `Cogs` class:
+Next, copy the following to TODO 4 in the `unsubscribe` method of the `Cogs` class:
 ```
       // Get the set of CogsSubscription objects from the GambitSDKService.
       Set<CogsSubscription> subscriptions = cogsService.getSubscriptions();
@@ -126,7 +127,7 @@ public static Future<GambitResponse> sendEvent(
 }
 ```
 
-Copy the following to TODO 6 in the `Cogs` class body:
+Copy the following to TODO 6 in the `publish` method of the `Cogs` class:
 ```
       try {
         // Send the event using the sendEvent helper method and wait for the response.
@@ -143,7 +144,7 @@ Copy the following to TODO 6 in the `Cogs` class body:
       };
 ```
 
-## Program PianoFragment
+## Edit PianoFragment
 The final modifications you will make are to the `PianoFragment` class.
 
 ### Change publisher and subscriber to use Cogs
@@ -163,7 +164,7 @@ Now the app will use Cogs instead of a local pub-sub component.
 
 ### Publish mode
 You will need to change the following code at TODO 8
-in the body of the `PianoFragment` class:
+in the `OnTouchListener` in the `PianoFragment` class:
 ```
 if(action == MotionEvent.ACTION_DOWN){
   Logging.info("Sending Key Event: " + key.getKeyName());
@@ -195,6 +196,7 @@ Remove this line where it appears in the file. This will change several UI compo
 from invisible to visible.
 
 ## Remove LocalPubSub
-Now it is possible to remove the 'LocalPubSub' class, and the app should work fully
-with Cogs as the pub-sub component.
+Now it is possible to remove the `LocalPubSub` class, and the app should work fully
+with Cogs as the pub-sub component. It can be installed on several devices and each device
+can send notes to the others to play when in publish mode.
 
