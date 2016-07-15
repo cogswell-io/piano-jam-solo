@@ -161,17 +161,6 @@ private SubscribeInterface subscriber = pubsub;
 ```
 Now the app will use Cogs instead of a local pub-sub component.
 
-### Add controls
-In order to allow the app to be more useful as a distributed application, you will
-need to add in a couple of controls. You will need to delete several lines from the
-"app/src/main/res/layout/activity_tab_layout.xml" file. Four components contain the
-following code:
-```
-android:visibility="gone"
-```
-Remove this line where it appears in the file. This will change several UI components
-from invisible to visible.
-
 ### Publish mode
 You will need to change the following code at TODO 8
 in the body of the `PianoFragment` class:
@@ -193,6 +182,17 @@ if(action == MotionEvent.ACTION_DOWN){
   }
 }
 ```
+
+### Add controls
+In order to allow the app to be more useful as a distributed application, you will
+need to add in a couple of controls. You will need to delete several lines from the
+"app/src/main/res/layout/activity_tab_layout.xml" file. Four components contain the
+following code:
+```
+android:visibility="gone"
+```
+Remove this line where it appears in the file. This will change several UI components
+from invisible to visible.
 
 ## Remove LocalPubSub
 Now it is possible to remove the 'LocalPubSub' class, and the app should work fully
