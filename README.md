@@ -16,6 +16,7 @@ and campaign on the Cogswell.io website according to this [tutorial](CogswellTut
 You will aslo need to get Android Studio if you do not have it, clone the Piano Jam Solo code
 from GitHub, import the Piano Jam Solo project in Android Studio, and optionally install Piano Jam
 Solo on a device.
+
 1. Download [Android Studio](https://developer.android.com/studio/index.html)
 2. Clone Piano Jam Solo using `git clone https://github.com/cogswell-io/piano-jam-solo.git`
 3. Import the Piano Jam Solo project in Android Studio using File > New > Import Project
