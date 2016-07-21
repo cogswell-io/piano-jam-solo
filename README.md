@@ -93,7 +93,6 @@ Next, copy the following to TODO 4 in the `unsubscribe` method of the `Cogs` cla
           public void call(Boolean stopped) {
             if (stopped) {
               String room = subscription.getTopicAttributesJson().str("room");
-              Logging.info("Left room '" + room);
             }
           }
         });
