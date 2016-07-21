@@ -5,13 +5,22 @@ through a local pub-sub system. This pub-sub system implements a Publish interfa
 and Subscribe interface, and is intended to be replaced with a networked pub-sub
 system that uses the Cogswell.io cloud messaging service.
 
-The following tutorial assumes you know how to edit, compile, and install Android
-programs. If not you can get information at the
+The following tutorial assumes you are comfortable with editing, compiling, and installing 
+Android programs. If not you can get information at the
 [Android developer portal](https://developer.android.com/training/index.html).
 
 # Piano Jam using Cogswell.io Tutorial
 Before updating the Piano Jam Solo program to use Cogs you will need to set up an account, keys,
 and campaign on the Cogswell.io website according to this [tutorial](CogswellTutorial.md).
+
+You will aslo need to get Android Studio if you do not have it, clone the Piano Jam Solo code
+from GitHub, import the Piano Jam Solo project in Android Studio, and optionally install Piano Jam
+Solo on a device.
+
+1. Download [Android Studio](https://developer.android.com/studio/index.html)
+2. Clone Piano Jam Solo using `git clone https://github.com/cogswell-io/piano-jam-solo.git`
+3. Import the Piano Jam Solo project in Android Studio using File > New > Import Project
+4. Install Piano Jam Solo using Run > Run... > app
 
 ## Edit Subscriptions
 First you will edit the `Subscriptions` class.
