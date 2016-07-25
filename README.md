@@ -95,19 +95,17 @@ Next, copy the following to TODO 4 in the `unsubscribe` method of the `Cogs` cla
       Set<CogsSubscription> subscriptions = cogsService.getSubscriptions();
 
       for (final CogsSubscription subscription : subscriptions) {
-        room = subscription.getTopicAttributesJson().str("room");
         // Call the GambitSDKService unsubscribe method on the CogsSubscription.
         // This will unsubscribe the app from the CogsSubscription specified.
         cogsService.unsubscribe(subscription, new io.cogswell.sdk.subscription.Callback<Boolean>() {
           public void call(Boolean stopped) {
             if (stopped) {
               String room = subscription.getTopicAttributesJson().str("room");
+              bookkeepingCallback.call(room);
             }
           }
         });
       }
-
-      bookkeepingCallback.call(room);
 ```
 
 #### PublishInterface
@@ -118,13 +116,12 @@ public static Future<GambitResponse> sendEvent(
   String namespace, JSONObject attributes, String eventName) {
     // Build a GambitRequestEvent.
     GambitRequestEvent.Builder builder = new GambitRequestEvent.Builder(
-      accessKey, clientSalt, clientSecret);
-
-    builder.setNamespace(namespace);
-    builder.setAttributes(attributes);
-    builder.setEventName(eventName);
-    builder.setCampaignId(-1);
-    builder.setTimestamp(TimeFormatter.isoNow());
+      accessKey, clientSalt, clientSecret)
+      .setNamespace(namespace)
+      .setAttributes(attributes)
+      .setEventName(eventName)
+      .setCampaignId(-1)
+      .setTimestamp(TimeFormatter.isoNow());
 
     try {
       // Send the GambitRequestEvent to Cogs.
