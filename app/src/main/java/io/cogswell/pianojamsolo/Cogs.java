@@ -40,9 +40,9 @@ public class Cogs implements PublishInterface, SubscribeInterface {
                     Logging.error("Error assembling topic attributes.", e);
                     throw new RuntimeException("Error assembling topic attributes.", e);
                 }
+                // TODO 3: Insert Cogs tutorial code here
             }
 
-            // TODO 3: Insert Cogs tutorial code here
         });
     }
 
