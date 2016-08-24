@@ -205,8 +205,8 @@ Now it is possible to remove the `LocalPubSub` class, and the app should work fu
 with Cogs as the pub-sub component. It can be installed on several devices and each device
 can send notes to the others to play when in publish mode.
 
-## NOTE: If you're build fails with a DexIndexOverflowException, set multiDexEnabled to true.
-You may see a build failure that throws com.android.dex.DexIndexOverflowException.  If this happens, then add "multiDexEnabled true" to android.defaultConfig in app/build.gradle:
+## NOTE: If your build fails with a DexIndexOverflowException.
+You may see a build failure that throws `com.android.dex.DexIndexOverflowException`.  If this happens, then add `multiDexEnabled true` to the `android.defaultConfig` in the `app/build.gradle` file:
 ```
 [...]
 android {
